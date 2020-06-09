@@ -318,10 +318,10 @@ void sr_handlepacket(struct sr_instance* sr,
 	  /* generate ICMP time exceeded packet */
       new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
       new_pck = (uint8_t *) calloc(1, new_len);
-
+      /*
       e_hdr0 = (struct sr_ethernet_hdr *) packet;
       i_hdr0 = (struct sr_ip_hdr *) (packet + sizeof(struct sr_ethernet_hdr));
-
+      */
       e_hdr = (struct sr_ethernet_hdr *) new_pck;
       i_hdr = (struct sr_ip_hdr *) (new_pck + sizeof(struct sr_ip_hdr));
       ict3_hdr = (struct sr_icmp_t3_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr));
