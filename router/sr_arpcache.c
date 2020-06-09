@@ -92,7 +92,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                 /* send */
                 sr_send_packet(sr, new_pck, len, ifc->name);
                 /* queue */
-                arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, new_len, ifc);
+                arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, len, ifc);
 	            sr_arpcache_handle_arpreq(sr, arpreq);
             }
 
