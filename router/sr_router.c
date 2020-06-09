@@ -83,7 +83,7 @@ int ip_black_list(struct sr_ip_hdr* iph)
   printf("blacklist: %d.%d.%d.%d\n", black_one,
                                       black_two,
                                       black_three,
-                                      black_four;
+                                      black_four);
 
   if (one == black_one 
     && two == black_two
