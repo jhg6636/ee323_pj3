@@ -67,7 +67,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                 ict3_hdr = (struct sr_icmp_t3_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr));
 
                 rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_src);
-                if (rtentry == NULL) printf("fuckfuckfuck\n");
+                if (rtentry == NULL) printf("fff\n");
                 printf("here\n");
                 ifc = sr_get_interface(sr, rtentry->interface);
                 
