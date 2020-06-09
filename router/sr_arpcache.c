@@ -115,6 +115,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
             ifc = sr_get_interface(sr, rtentry->interface);
             e_hdr = (struct sr_ethernet_hdr *) buf;
             a_hdr = (struct sr_arp_hdr *) (buf + sizeof(struct sr_ethernet_hdr));
+            e_hdr->ether_type = htons(ethertype_arp);
             memcpy(e_hdr->ether_dhost, (uint8_t *)IP_BROADCAST, ETHER_ADDR_LEN);
             memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 
