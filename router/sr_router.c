@@ -408,7 +408,7 @@ void sr_handlepacket(struct sr_instance* sr,
   rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_src);
   ifc = sr_get_interface(sr, rtentry->interface);
 
-  e_hdr->ether_type = e_hdr0->ether_type;
+  e_hdr->ether_type = htons(ethertype_ip);
   memcpy(e_hdr->ether_dhost, e_hdr0->ether_shost, ETHER_ADDR_LEN);
   memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 
