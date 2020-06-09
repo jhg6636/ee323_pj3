@@ -364,18 +364,18 @@ void sr_handlepacket(struct sr_instance* sr,
 
 	/* set src MAC addr */
   ifc = sr_get_interface(sr, rtentry->interface);
-
+  memcpy(e_hdr0->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 	/* refer ARP table */
   arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst);
 	/* hit */
 	if (arpentry != NULL) {
 	  /* set dst MAC addr */
-    memcpy(e_hdr->ether_dhost, arpentry->mac, ETHER_ADDR_LEN);
+    memcpy(e_hdr0->ether_dhost, arpentry->mac, ETHER_ADDR_LEN);
 	  /* decrement TTL */
     i_hdr->ip_sum = 0;
     i_hdr->ip_sum = cksum(i_hdr, sizeof(struct sr_ip_hdr));
 	  /* forward */
-    memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
+    sr_send_packet(sr, packet, len, ifc->name);
 
 	  /*****************************************************/
 	}
@@ -408,7 +408,7 @@ void sr_handlepacket(struct sr_instance* sr,
   rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_src);
   ifc = sr_get_interface(sr, rtentry->interface);
 
-  e_hdr->ether_type = htons(ethertype_ip);
+  e_hdr->ether_type = e_hdr0->ether_type;
   memcpy(e_hdr->ether_dhost, e_hdr0->ether_shost, ETHER_ADDR_LEN);
   memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 
