@@ -71,19 +71,24 @@ int ip_black_list(struct sr_ip_hdr* iph)
   char two = ((src_ip & mask_int) >> 16) & 255;
   char three = ((src_ip & mask_int) >> 8) & 255;
   char four = (src_ip & mask_int) & 255;
+
+  char black_one = (ip_blacklist_int >> 24) & 255;
+  char black_two = (ip_blacklist_int >> 16) & 255;
+  char black_three = (ip_blacklist_int >> 8) & 255;
+  char black_four = (ip_blacklist_int) & 255;
   /*
   printf("ip_blacklist_int: %x\n", ip_blacklist_int);
   */
   printf("[Source ip blocked]: %d.%d.%d.%d\n", one, two, three, four);
-  printf("blacklist: %d.%d.%d.%d\n", (ip_blacklist_int >> 24) & 255,
-                                      (ip_blacklist_int >> 16) & 255,
-                                      (ip_blacklist_int >> 8) & 255,
-                                      (ip_blacklist_int) & 255);
+  printf("blacklist: %d.%d.%d.%d\n", black_one,
+                                      black_two,
+                                      black_three,
+                                      black_four;
 
-  if (one == (ip_blacklist_int >> 24) & 255 
-    && two == (ip_blacklist_int >> 16) & 255
-    && three == (ip_blacklist_int >> 8) & 255
-    && four == (ip_blacklist_int) & 255) {
+  if (one == black_one 
+    && two == black_two
+    && three == black_three
+    && four == black_four) {
     printf("cut\n");
     blk = 1;
     printf("[Source ip blocked]: %d.%d.%d.%d\n", one, two, three, four);
