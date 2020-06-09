@@ -111,7 +111,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
             len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_arp_hdr);
             buf = calloc(1, len);
             rtentry = sr_findLPMentry(sr->routing_table, req->ip);
-            ifc = rtentry->interface;
+            ifc = sr_get_interface(sr, rtentry->interface);
             e_hdr = (struct sr_ethernet_hdr *) buf;
             a_hdr = (struct sr_arp_hdr *) (buf + sizeof(struct sr_ethernet_hdr));
             memcpy(e_hdr->ether_dhost, (uint8_t *)IP_BROADCAST, ETHER_ADDR_LEN);
@@ -133,7 +133,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
             sr_send_packet(sr, buf, len, ifc->name);
             printf("handle_arpcache: arp packet sent\n");
 			/* done */
-            /* free(buf); */
+            free(buf); 
 
 			/* update fields */
             req->sent = time(NULL);
