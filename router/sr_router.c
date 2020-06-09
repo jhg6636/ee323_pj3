@@ -81,10 +81,10 @@ int ip_black_list(struct sr_ip_hdr* iph)
     && three == black_three
     && four == black_four) {
     blk = 1;
-    printf("[Source ip blocked]: %d.%d.%d.%d\n", (src_ip >> 24) && 255,
-                                                  (src_ip >> 16) && 255,
-                                                  (src_ip >> 8) && 255,
-                                                  src_ip && 255);
+    printf("[Source ip blocked]: %d.%d.%d.%d\n", (src_ip >> 24) & 255,
+                                                  (src_ip >> 16) & 255,
+                                                  (src_ip >> 8) & 255,
+                                                  src_ip & 255);
   }
   /****************************************************/
   return blk;
