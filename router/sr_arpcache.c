@@ -50,7 +50,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
 		/* 5 failures accumulated, discard */
 		if (req->times_sent >= 5) {
 		/**************** fill in code here *****************/
-            
+            printf("host_unreachable start\n");
 			/* generate ICMP host unreachable packets */
 			pck = req->packets;
             while (pck) {
@@ -69,7 +69,6 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                 ifc = sr_get_interface(sr, rtentry->interface);
                 
                 e_hdr->ether_type = e_hdr0->ether_type;
-                printf("icmp memcpy before\n");
                 memcpy(e_hdr->ether_dhost, e_hdr0->ether_shost, ETHER_ADDR_LEN);
                 memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 
@@ -86,8 +85,6 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                 i_hdr->ip_sum = 0;
                 i_hdr->ip_sum = cksum(i_hdr, sizeof(struct sr_ip_hdr));
                 
-                printf("handle_arpcache: ip header made\n");
-
                 ict3_hdr->icmp_type = 0x03;
                 ict3_hdr->icmp_code = 0x01;
                 memcpy(ict3_hdr->data, i_hdr0, ICMP_DATA_SIZE);

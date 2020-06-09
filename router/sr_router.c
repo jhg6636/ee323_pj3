@@ -234,14 +234,11 @@ void sr_handlepacket(struct sr_instance* sr,
 
 	/**************** fill in code here *****************/
 	/* generate ICMP port unreachable packet */
-  printf("host_unreachable\n");
+  printf("port_unreachable\n");
 
 	new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
 	new_pck = (uint8_t *) calloc(1, new_len);
-/*
-  e_hdr0 = (struct sr_ethernet_hdr *) packet;
-  i_hdr0 = (struct sr_ip_hdr *) (packet + sizeof(struct sr_ethernet_hdr));
-*/
+
   e_hdr = (struct sr_ethernet_hdr *) new_pck;
   i_hdr = (struct sr_ip_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr));
   ict3_hdr = (struct sr_icmp_t3_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr));
@@ -389,7 +386,7 @@ void sr_handlepacket(struct sr_instance* sr,
 	/* miss */
 	else {
 	  /* queue */
-	  arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, packet, len, rtentry->interface);
+	  arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, packet, len, ifc);
 	  sr_arpcache_handle_arpreq(sr, arpreq);
 	}	
 	/* done */
