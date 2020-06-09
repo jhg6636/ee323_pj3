@@ -102,7 +102,7 @@ void sr_handlepacket(struct sr_instance* sr,
 		     char* interface/* lent */)
 {
   print_hdrs(packet, len);
-  
+
   /* REQUIRES */
   assert(sr);
   assert(packet);
@@ -524,7 +524,7 @@ void sr_handlepacket(struct sr_instance* sr,
 
     sr_arpreq_destroy(&(sr->cache), arpreq);
     free(new_pck);
-    // free(en_pck);
+    /* free(en_pck); */
 	  return;
 	}
 
