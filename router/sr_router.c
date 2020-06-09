@@ -372,8 +372,8 @@ void sr_handlepacket(struct sr_instance* sr,
 	  /* set dst MAC addr */
     memcpy(e_hdr0->ether_dhost, arpentry->mac, ETHER_ADDR_LEN);
 	  /* decrement TTL */
-    i_hdr->ip_sum = 0;
-    i_hdr->ip_sum = cksum(i_hdr, sizeof(struct sr_ip_hdr));
+    i_hdr0->ip_sum = 0;
+    i_hdr0->ip_sum = cksum(i_hdr0, sizeof(struct sr_ip_hdr));
 	  /* forward */
     sr_send_packet(sr, packet, len, ifc->name);
 
