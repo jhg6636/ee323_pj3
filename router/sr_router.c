@@ -157,8 +157,8 @@ void sr_handlepacket(struct sr_instance* sr,
     for (ifc = sr->if_list; ifc != NULL; ifc = ifc->next)
       if (i_hdr0->ip_dst == ifc->ip){
 	break;}
-    printf("hello\n");
-    print_hdrs(e_hdr0, 64);
+    /* printf("hello\n");
+    print_hdrs(e_hdr0, 64); */
 
     /* check ip black list */
     if(ip_black_list(i_hdr0)){
@@ -234,7 +234,7 @@ void sr_handlepacket(struct sr_instance* sr,
 
 	/**************** fill in code here *****************/
 	/* generate ICMP port unreachable packet */
-  
+  printf("host_unreachable\n");
 
 	new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
 	new_pck = (uint8_t *) calloc(1, new_len);
@@ -271,9 +271,10 @@ void sr_handlepacket(struct sr_instance* sr,
   memcpy(ict3_hdr->data, i_hdr0, ICMP_DATA_SIZE);
   ict3_hdr->icmp_sum = 0;
   ict3_hdr->icmp_sum = cksum(ict3_hdr, sizeof(struct sr_icmp_t3_hdr));
-	
+	/*
   printf("port unreachable\n");
   print_hdrs(e_hdr, 64);
+  */
 	/* send */
 	sr_send_packet(sr, new_pck, new_len, ifc->name);
 				
@@ -298,7 +299,7 @@ void sr_handlepacket(struct sr_instance* sr,
     /* destined elsewhere, forward */
     else {
       printf("destined elsewhere\n");
-      print_hdrs(e_hdr0, 64);
+      /* print_hdrs(e_hdr0, 64); */
       /* refer routing table */
       rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_dst);
 			
@@ -439,7 +440,7 @@ void sr_handlepacket(struct sr_instance* sr,
   arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst);
 
   printf("net unreachable\n");
-  print_hdrs(e_hdr, 64);
+  /* print_hdrs(e_hdr, 64); */
 	/* send */
   if (arpentry)
     sr_send_packet(sr, new_pck, new_len, ifc->name);
