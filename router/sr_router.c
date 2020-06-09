@@ -157,7 +157,8 @@ void sr_handlepacket(struct sr_instance* sr,
     for (ifc = sr->if_list; ifc != NULL; ifc = ifc->next)
       if (i_hdr0->ip_dst == ifc->ip){
 	break;}
-
+    printf("hello\n");
+    print_hdrs(e_hdr0, 64);
 
     /* check ip black list */
     if(ip_black_list(i_hdr0)){
