@@ -381,6 +381,7 @@ void sr_handlepacket(struct sr_instance* sr,
     i_hdr0->ip_sum = 0;
     i_hdr0->ip_sum = cksum(i_hdr0, sizeof(struct sr_ip_hdr));
 	  /* forward */
+    printf("forwarding... \n");
     sr_send_packet(sr, packet, len, ifc->name);
 
 	  /*****************************************************/
