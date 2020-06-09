@@ -64,7 +64,6 @@ int ip_black_list(struct sr_ip_hdr* iph)
   char ip_blacklist[20]="10.0.2.0";
   char mask[20]="255.255.255.0";
   /**************** fill in code here *****************/
-  printf("black list\n");
   uint32_t ip_blacklist_int = ntohl(inet_addr(ip_blacklist));
   uint32_t mask_int = ntohl(inet_addr(mask));
   uint32_t src_ip = ntohl(iph->ip_src);
@@ -72,12 +71,14 @@ int ip_black_list(struct sr_ip_hdr* iph)
   char two = ((src_ip & mask_int) >> 16) & 255;
   char three = ((src_ip & mask_int) >> 8) & 255;
   char four = (src_ip & mask_int) & 255;
+  /*
   printf("ip_blacklist_int: %x\n", ip_blacklist_int);
   printf("[Source ip blocked]: %d.%d.%d.%d\n", one, two, three, four);
   printf("blacklist: %d.%d.%d.%d\n", (ip_blacklist_int >> 24) & 255,
                                       (ip_blacklist_int >> 16) & 255,
                                       (ip_blacklist_int >> 8) & 255,
                                       (ip_blacklist_int) & 255);
+  */
   if (one == (ip_blacklist_int >> 24) & 255 
     && two == (ip_blacklist_int >> 16) & 255
     && three == (ip_blacklist_int >> 8) & 255
