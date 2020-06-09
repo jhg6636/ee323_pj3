@@ -372,7 +372,8 @@ void sr_handlepacket(struct sr_instance* sr,
 	/**************** fill in code here *****************/	
 
 	/* set src MAC addr */
-  ifc = sr_get_interface(sr, rtentry->interface);
+  ifc = sr_get_interface(sr, interface);
+  /* ifc = sr_get_interface(sr, rtentry->interface); */
   memcpy(e_hdr0->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 	/* refer ARP table */
   arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst);
