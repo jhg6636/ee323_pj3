@@ -130,8 +130,9 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
             memcpy(a_hdr->ar_tha, (unsigned char *)IP_BROADCAST, ETHER_ADDR_LEN);
 
 			/* send */
-            sr_send_packet(sr, buf, len, ifc->name);
             printf("handle_arpcache: arp packet sent\n");
+            sr_send_packet(sr, buf, len, rtentry->interface);
+            printf("handle_arpcache: arp packet sent fin\n");
 			/* done */
             free(buf); 
 
