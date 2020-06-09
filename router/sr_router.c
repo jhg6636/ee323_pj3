@@ -101,7 +101,8 @@ void sr_handlepacket(struct sr_instance* sr,
 		     unsigned int len,
 		     char* interface/* lent */)
 {
-
+  print_hdrs(packet, len);
+  
   /* REQUIRES */
   assert(sr);
   assert(packet);
