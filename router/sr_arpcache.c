@@ -74,7 +74,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                 i_hdr->ip_hl = i_hdr0->ip_hl;
                 i_hdr->ip_v = i_hdr0->ip_v;
                 i_hdr->ip_tos = i_hdr0->ip_tos;
-                i_hdr->ip_len = htons(new_len - sizeof(struct sr_ethernet_hdr));
+                i_hdr->ip_len = htons(len - sizeof(struct sr_ethernet_hdr));
                 i_hdr->ip_id = i_hdr0->ip_id;
                 i_hdr->ip_off = i_hdr0->ip_off;
                 i_hdr->ip_ttl = INIT_TTL;
