@@ -78,13 +78,13 @@ int ip_black_list(struct sr_ip_hdr* iph)
   char black_four = (ip_blacklist_int) & 255;
   /*
   printf("ip_blacklist_int: %x\n", ip_blacklist_int);
-  */
+  
   printf("[Source ip blocked]: %d.%d.%d.%d\n", one, two, three, four);
   printf("blacklist: %d.%d.%d.%d\n", black_one,
                                       black_two,
                                       black_three,
                                       black_four);
-
+  */
   if (one == black_one 
     && two == black_two
     && three == black_three
