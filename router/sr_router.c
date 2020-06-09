@@ -432,7 +432,7 @@ void sr_handlepacket(struct sr_instance* sr,
   i_hdr->ip_id = i_hdr0->ip_id;
   i_hdr->ip_off = i_hdr0->ip_off;
   i_hdr->ip_ttl = INIT_TTL;
-  i_hdr->ip_p = i_hdr0->ip_p;
+  i_hdr->ip_p = ip_protocol_icmp;
   i_hdr->ip_src = ifc->ip;
   i_hdr->ip_dst = i_hdr0->ip_src;
   i_hdr->ip_sum = 0;
