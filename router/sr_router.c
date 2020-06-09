@@ -73,6 +73,10 @@ int ip_black_list(struct sr_ip_hdr* iph)
   char three = (src_ip >> 8) & 255;
   char four = (src_ip) & 255;
   printf("[Source ip blocked]: %d.%d.%d.%d\n", one, two, three, four);
+  printf("blacklist: %d.%d.%d.%d\n", (ip_blacklist_int >> 24) & 255,
+                                      (ip_blacklist_int >> 16) & 255,
+                                      (ip_blacklist_int >> 8) & 255),
+                                      (ip_blacklist_int) & 255))
   if ((one & ((mask_int >> 24) & 255) == (ip_blacklist_int >> 24) & 255) 
     && (two & ((mask_int >> 16) & 255) == (ip_blacklist_int >> 16) & 255)
     && (three & ((mask_int >> 8) & 255) == (ip_blacklist_int >> 8) & 255)
@@ -526,8 +530,9 @@ void sr_handlepacket(struct sr_instance* sr,
       memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
       /* decrement TTL except for self-generated packets */
       i_hdr->ip_sum = 0;
+      i_hdr->ip_ttl--;
       i_hdr->ip_sum = cksum(i_hdr, sizeof(struct sr_ip_hdr));
-
+      
       /* send */
       sr_send_packet(sr, new_pck, en_pck->len, ifc->name);
 
