@@ -509,6 +509,7 @@ void sr_handlepacket(struct sr_instance* sr,
     en_pck = arpreq->packets;
 
     while (en_pck) {
+      printf("here\n");
       new_pck = en_pck->buf;
       e_hdr = (struct sr_ethernet_hdr *) new_pck;
       i_hdr = (struct sr_ip_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr));
