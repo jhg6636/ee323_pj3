@@ -91,11 +91,17 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                 memcpy(ict3_hdr->data, i_hdr0, ICMP_DATA_SIZE);
                 ict3_hdr->icmp_sum = 0;
                 ict3_hdr->icmp_sum = cksum(ict3_hdr, sizeof(struct sr_icmp_t3_hdr));
-                /* send */
-                sr_send_packet(sr, new_pck, len, ifc->name);
-                /* queue */
-                struct sr_arpreq *arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, len, ifc);
-	            sr_arpcache_handle_arpreq(sr, arpreq);
+
+                entry = sr_arpcache_lookup(cache, i_hdr0->ip_src);
+                if (entry) {
+                    /* send */
+                    sr_send_packet(sr, new_pck, len, ifc->name);
+                }
+                else {
+                    /* queue */
+                    struct sr_arpreq *arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, len, ifc);
+                    sr_arpcache_handle_arpreq(sr, arpreq);
+                }
             }
 
 		/****************************************************/
