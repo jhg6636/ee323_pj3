@@ -370,6 +370,7 @@ void sr_handlepacket(struct sr_instance* sr,
   memcpy(e_hdr0->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 	/* refer ARP table */
   arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst);
+  printf("forwarding start... \n");
 	/* hit */
 	if (arpentry != NULL) {
 	  /* set dst MAC addr */
