@@ -113,7 +113,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
             rtentry = sr_findLPMentry(sr->routing_table, req->ip);
             ifc = rtentry->interface;
             e_hdr = (struct sr_ethernet_hdr *) buf;
-            a_hdr = (struct sr_arp_hdr *) (packet + sizeof(struct sr_ethernet_hdr));
+            a_hdr = (struct sr_arp_hdr *) (buf + sizeof(struct sr_ethernet_hdr));
             memcpy(e_hdr->ether_dhost, (uint8_t *)IP_BROADCAST, ETHER_ADDR_LEN);
             memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 
