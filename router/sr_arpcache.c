@@ -114,7 +114,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
 		/* try again */
 		else {
 		/**************** fill in code here *****************/
-            printf("try again\n");
+            /* printf("try again\n"); */
 			/* generate ARP request */
             len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_arp_hdr);
             buf = (uint8_t *)calloc(1, len);
