@@ -289,7 +289,6 @@ void sr_handlepacket(struct sr_instance* sr,
 	free(new_pck);
 	return;
       }
-
       /* with others */
       else
 	return;
@@ -298,7 +297,8 @@ void sr_handlepacket(struct sr_instance* sr,
 		
     /* destined elsewhere, forward */
     else {
-
+      printf("destined elsewhere\n");
+      print_hdrs(e_hdr0, 64);
       /* refer routing table */
       rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_dst);
 			
@@ -397,7 +397,8 @@ void sr_handlepacket(struct sr_instance* sr,
       /* miss */
       else {
 	/**************** fill in code here *****************/	
-
+  printf("net unreachable start\n");
+  print_hdrs(e_hdr0, 64);
 	/* validation */
   if (len_r + sizeof(struct sr_ip_hdr) < ICMP_DATA_SIZE)
 	  return;
