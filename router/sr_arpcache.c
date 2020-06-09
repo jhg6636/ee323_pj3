@@ -56,7 +56,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
             while (pck) {
                 ifc = sr_get_interface(sr, pck->iface);
                 len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
-                struct sr_packet *new_pck = (uint8_t *) calloc(1, len);
+                uint8_t *new_pck = (uint8_t *) calloc(1, len);
 
                 struct sr_ethernet_hdr *e_hdr0 = (struct sr_ethernet_hdr *) buf;
                 i_hdr0 = (struct sr_ip_hdr *) (buf + sizeof(struct sr_ethernet_hdr));
