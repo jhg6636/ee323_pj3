@@ -30,7 +30,7 @@ void sr_arpcache_sweepreqs(struct sr_instance *sr) {
 }
 
 void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
-    printf("arpcache_handle start\n");
+    /*printf("arpcache_handle start\n");*/
 	struct sr_arpcache *cache = &(sr->cache);	/* cache */
 	struct sr_packet *pck;						/* packet */
 	uint8_t *buf;								/* raw Ethernet frame */
@@ -50,7 +50,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
 		/* 5 failures accumulated, discard */
 		if (req->times_sent >= 5) {
 		/**************** fill in code here *****************/
-            printf("host_unreachable start\n");
+            /*printf("host_unreachable start\n");*/
 			/* generate ICMP host unreachable packets */
 			pck = req->packets;
             while (pck) {
