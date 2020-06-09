@@ -30,6 +30,7 @@ void sr_arpcache_sweepreqs(struct sr_instance *sr) {
 }
 
 void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
+    printf("arpcache_handle start\n");
 	struct sr_arpcache *cache = &(sr->cache);	/* cache */
 	struct sr_packet *pck;						/* packet */
 	uint8_t *buf;								/* raw Ethernet frame */
