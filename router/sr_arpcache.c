@@ -58,7 +58,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                 ifc = sr_get_interface(sr, pck->iface);
                 len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
                 uint8_t *new_pck = (uint8_t *) calloc(1, len);
-                printf("here\n");
+                
                 struct sr_ethernet_hdr *e_hdr0 = (struct sr_ethernet_hdr *) buf;
                 i_hdr0 = (struct sr_ip_hdr *) (buf + sizeof(struct sr_ethernet_hdr));
 
@@ -68,6 +68,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
 
                 rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_src);
                 ifc = sr_get_interface(sr, rtentry->interface);
+                printf("here\n");
                 e_hdr->ether_type = e_hdr0->ether_type;
                 memcpy(e_hdr->ether_dhost, e_hdr0->ether_shost, ETHER_ADDR_LEN);
                 memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
