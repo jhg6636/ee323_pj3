@@ -68,20 +68,20 @@ int ip_black_list(struct sr_ip_hdr* iph)
   uint32_t ip_blacklist_int = ntohl(inet_addr(ip_blacklist));
   uint32_t mask_int = ntohl(inet_addr(mask));
   uint32_t src_ip = ntohl(iph->ip_src);
-  char one = (src_ip >> 24) & 255;
-  char two = (src_ip >> 16) & 255;
-  char three = (src_ip >> 8) & 255;
-  char four = (src_ip) & 255;
+  char one = ((src_ip & mask_int) >> 24) & 255;
+  char two = ((src_ip & mask_int) >> 16) & 255;
+  char three = ((src_ip & mask_int) >> 8) & 255;
+  char four = (src_ip & mask_int) & 255;
   printf("ip_blacklist_int: %x\n", ip_blacklist_int);
   printf("[Source ip blocked]: %d.%d.%d.%d\n", one, two, three, four);
   printf("blacklist: %d.%d.%d.%d\n", (ip_blacklist_int >> 24) & 255,
                                       (ip_blacklist_int >> 16) & 255,
                                       (ip_blacklist_int >> 8) & 255,
                                       (ip_blacklist_int) & 255);
-  if ((one & ((mask_int >> 24) & 255) == (ip_blacklist_int >> 24) & 255) 
-    && (two & ((mask_int >> 16) & 255) == (ip_blacklist_int >> 16) & 255)
-    && (three & ((mask_int >> 8) & 255) == (ip_blacklist_int >> 8) & 255)
-    && (four & (mask_int & 255) == (ip_blacklist_int) & 255)) {
+  if (one == (ip_blacklist_int >> 24) & 255) 
+    && two == (ip_blacklist_int >> 16) & 255)
+    && three == (ip_blacklist_int >> 8) & 255)
+    && four == (ip_blacklist_int) & 255)) {
     blk = 1;
     printf("[Source ip blocked]: %d.%d.%d.%d\n", one, two, three, four);
   }
