@@ -83,6 +83,8 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                 i_hdr->ip_dst = i_hdr0->ip_src;
                 i_hdr->ip_sum = 0;
                 i_hdr->ip_sum = cksum(i_hdr, sizeof(struct sr_ip_hdr));
+                
+                printf("handle_arpcache: ip header made\n");
 
                 ict3_hdr->icmp_type = 0x03;
                 ict3_hdr->icmp_code = 0x01;
