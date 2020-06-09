@@ -131,7 +131,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
 
 			/* send */
             sr_send_packet(sr, buf, len, ifc->name);
-
+            printf("handle_arpcache: arp packet sent\n");
 			/* done */
             /* free(buf); */
 
