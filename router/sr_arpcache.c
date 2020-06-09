@@ -49,7 +49,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
 		/* 5 failures accumulated, discard */
 		if (req->times_sent >= 5) {
 		/**************** fill in code here *****************/
-            printf("here\n");
+            
 			/* generate ICMP host unreachable packets */
 			pck = req->packets;
             while (pck) {
@@ -66,8 +66,9 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
 
                 rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_src);
                 ifc = sr_get_interface(sr, rtentry->interface);
-
+                
                 e_hdr->ether_type = e_hdr0->ether_type;
+                printf("icmp memcpy before\n");
                 memcpy(e_hdr->ether_dhost, e_hdr0->ether_shost, ETHER_ADDR_LEN);
                 memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 
