@@ -233,8 +233,7 @@ void sr_handlepacket(struct sr_instance* sr,
 
 	/**************** fill in code here *****************/
 	/* generate ICMP port unreachable packet */
-  printf("port unreachable\n");
-  print_hdrs(e_hdr, 64);
+  
 
 	new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
 	new_pck = (uint8_t *) calloc(1, new_len);
@@ -271,7 +270,9 @@ void sr_handlepacket(struct sr_instance* sr,
   memcpy(ict3_hdr->data, i_hdr0, ICMP_DATA_SIZE);
   ict3_hdr->icmp_sum = 0;
   ict3_hdr->icmp_sum = cksum(ict3_hdr, sizeof(struct sr_icmp_t3_hdr));
-				
+	
+  printf("port unreachable\n");
+  print_hdrs(e_hdr, 64);
 	/* send */
 	sr_send_packet(sr, new_pck, new_len, ifc->name);
 				
