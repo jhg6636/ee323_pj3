@@ -311,54 +311,53 @@ void sr_handlepacket(struct sr_instance* sr,
 		
 
 	  /* validation */
-		i_hdr0->ip_ttl--;
-    if (i_hdr0->ip_ttl == 0) {			
+			
 					
 
 	  /* generate ICMP time exceeded packet */
-      new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
-      new_pck = (uint8_t *) calloc(1, new_len);
-      /*
-      e_hdr0 = (struct sr_ethernet_hdr *) packet;
-      i_hdr0 = (struct sr_ip_hdr *) (packet + sizeof(struct sr_ethernet_hdr));
-      */
-      e_hdr = (struct sr_ethernet_hdr *) new_pck;
-      i_hdr = (struct sr_ip_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr));
-      ict3_hdr = (struct sr_icmp_t3_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr));
+    new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
+    new_pck = (uint8_t *) calloc(1, new_len);
+    /*
+    e_hdr0 = (struct sr_ethernet_hdr *) packet;
+    i_hdr0 = (struct sr_ip_hdr *) (packet + sizeof(struct sr_ethernet_hdr));
+    */
+    e_hdr = (struct sr_ethernet_hdr *) new_pck;
+    i_hdr = (struct sr_ip_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr));
+    ict3_hdr = (struct sr_icmp_t3_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr));
 
-      rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_src);
-      ifc = sr_get_interface(sr, rtentry->interface);
+    rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_src);
+    ifc = sr_get_interface(sr, rtentry->interface);
 
-      e_hdr->ether_type = e_hdr0->ether_type;
-      memcpy(e_hdr->ether_dhost, e_hdr0->ether_shost, ETHER_ADDR_LEN);
-      memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
+    e_hdr->ether_type = e_hdr0->ether_type;
+    memcpy(e_hdr->ether_dhost, e_hdr0->ether_shost, ETHER_ADDR_LEN);
+    memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 
-      i_hdr->ip_hl = i_hdr0->ip_hl;
-      i_hdr->ip_v = i_hdr0->ip_v;
-      i_hdr->ip_tos = i_hdr0->ip_tos;
-      i_hdr->ip_len = htons(new_len - sizeof(struct sr_ethernet_hdr));
-      i_hdr->ip_id = i_hdr0->ip_id;
-      i_hdr->ip_off = i_hdr0->ip_off;
-      i_hdr->ip_ttl = INIT_TTL;
-      i_hdr->ip_p = ip_protocol_icmp;
-      i_hdr->ip_src = ifc->ip;
-      i_hdr->ip_dst = i_hdr0->ip_src;
-      i_hdr->ip_sum = 0;
-      i_hdr->ip_sum = cksum(i_hdr, sizeof(struct sr_ip_hdr));
+    i_hdr->ip_hl = i_hdr0->ip_hl;
+    i_hdr->ip_v = i_hdr0->ip_v;
+    i_hdr->ip_tos = i_hdr0->ip_tos;
+    i_hdr->ip_len = htons(new_len - sizeof(struct sr_ethernet_hdr));
+    i_hdr->ip_id = i_hdr0->ip_id;
+    i_hdr->ip_off = i_hdr0->ip_off;
+    i_hdr->ip_ttl = INIT_TTL;
+    i_hdr->ip_p = ip_protocol_icmp;
+    i_hdr->ip_src = ifc->ip;
+    i_hdr->ip_dst = i_hdr0->ip_src;
+    i_hdr->ip_sum = 0;
+    i_hdr->ip_sum = cksum(i_hdr, sizeof(struct sr_ip_hdr));
 
-      ict3_hdr->icmp_type = 0x03;
-      ict3_hdr->icmp_code = 0x03;
-      memcpy(ict3_hdr->data, i_hdr0, ICMP_DATA_SIZE);
-      ict3_hdr->icmp_sum = 0;
-      ict3_hdr->icmp_sum = cksum(ict3_hdr, sizeof(struct sr_icmp_t3_hdr));
+    ict3_hdr->icmp_type = 0x03;
+    ict3_hdr->icmp_code = 0x03;
+    memcpy(ict3_hdr->data, i_hdr0, ICMP_DATA_SIZE);
+    ict3_hdr->icmp_sum = 0;
+    ict3_hdr->icmp_sum = cksum(ict3_hdr, sizeof(struct sr_icmp_t3_hdr));
 
 
-	  /* send */
-      sr_send_packet(sr, new_pck, new_len, ifc->name);
-	  /* queue */
-      arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, new_len, ifc);
-	    sr_arpcache_handle_arpreq(sr, arpreq);
-    }
+  /* send */
+    sr_send_packet(sr, new_pck, new_len, ifc->name);
+  /* queue */
+    arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, new_len, ifc);
+    sr_arpcache_handle_arpreq(sr, arpreq);
+    
 	  /*****************************************************/
 	  /* done */
 	  free(new_pck);
