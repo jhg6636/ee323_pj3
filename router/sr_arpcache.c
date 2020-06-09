@@ -111,7 +111,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
             printf("try again\n");
 			/* generate ARP request */
             len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_arp_hdr);
-            buf = calloc(1, len);
+            buf = (uint8_t *)calloc(1, len);
             rtentry = sr_findLPMentry(sr->routing_table, req->ip);
             ifc = sr_get_interface(sr, rtentry->interface);
             e_hdr = (struct sr_ethernet_hdr *) buf;
