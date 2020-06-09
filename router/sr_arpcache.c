@@ -126,7 +126,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
             a_hdr->ar_tip = req->ip;
             printf("handle_arpcache: arp header made\n");
             memcpy(a_hdr->ar_sha, ifc->addr, ETHER_ADDR_LEN);
-            printf("arpcache_handling: %hhn\n", (unsigned char *)IP_BROADCAST);
+            /* printf("arpcache_handling: %hhn\n", (unsigned char *)IP_BROADCAST); */
             memcpy(a_hdr->ar_tha, (unsigned char *)IP_BROADCAST, ETHER_ADDR_LEN);
 
 			/* send */
