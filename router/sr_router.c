@@ -102,7 +102,7 @@ void sr_handlepacket(struct sr_instance* sr,
 		     char* interface/* lent */)
 {
   printf("first\n");
-  /*print_hdrs(packet, len);*/
+  print_hdrs(packet, len);
 
   /* REQUIRES */
   assert(sr);
