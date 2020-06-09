@@ -61,7 +61,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                 i_hdr0 = (struct sr_ip_hdr *) (pck + sizeof(struct sr_ethernet_hdr));
 
                 e_hdr = (struct sr_ethernet_hdr *) new_pck;
-                i_hdr = (struct sr_ip_hdr *) (new_pck + sizeof(struct sr_ip_hdr));
+                i_hdr = (struct sr_ip_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr));
                 ict3_hdr = (struct sr_icmp_t3_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr));
 
                 rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_src);
@@ -107,7 +107,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
 		/* try again */
 		else {
 		/**************** fill in code here *****************/
-
+            printf("try again\n");
 			/* generate ARP request */
             len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_arp_hdr);
             buf = calloc(1, len);

@@ -399,7 +399,7 @@ void sr_handlepacket(struct sr_instance* sr,
       else {
 	/**************** fill in code here *****************/	
   printf("net unreachable start\n");
-  print_hdrs(e_hdr0, 64);
+  /*print_hdrs(e_hdr0, 64);*/
 	/* validation */
   if (len_r + sizeof(struct sr_ip_hdr) < ICMP_DATA_SIZE)
 	  return;
