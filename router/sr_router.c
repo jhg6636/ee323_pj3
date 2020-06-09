@@ -386,7 +386,7 @@ void sr_handlepacket(struct sr_instance* sr,
 	/* miss */
 	else {
 	  /* queue */
-	  arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, packet, len, ifc);
+	  arpreq = sr_arpcache_queuereq(&(sr->cache), i_hdr0->ip_dst, packet, len, ifc);
 	  sr_arpcache_handle_arpreq(sr, arpreq);
 	}	
 	/* done */
