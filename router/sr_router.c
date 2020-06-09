@@ -316,7 +316,7 @@ void sr_handlepacket(struct sr_instance* sr,
 		
 
 	  /* validation */
-			
+    i_hdr0->ip_ttl--;
 					
 
 	  /* generate ICMP time exceeded packet */
