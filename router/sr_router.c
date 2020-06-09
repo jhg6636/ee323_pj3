@@ -350,8 +350,8 @@ void sr_handlepacket(struct sr_instance* sr,
     i_hdr->ip_sum = 0;
     i_hdr->ip_sum = cksum(i_hdr, sizeof(struct sr_ip_hdr));
 
-    ict3_hdr->icmp_type = 0x03;
-    ict3_hdr->icmp_code = 0x03;
+    ict3_hdr->icmp_type = 0x11;
+    ict3_hdr->icmp_code = 0x00;
     memcpy(ict3_hdr->data, i_hdr0, ICMP_DATA_SIZE);
     ict3_hdr->icmp_sum = 0;
     ict3_hdr->icmp_sum = cksum(ict3_hdr, sizeof(struct sr_icmp_t3_hdr));
