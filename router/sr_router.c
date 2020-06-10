@@ -323,7 +323,7 @@ void sr_handlepacket(struct sr_instance* sr,
 
 	  /* validation */
     i_hdr0->ip_ttl--;
-    printf("ttl is 1\n")
+    printf("ttl is 1\n");
     print_hdrs(e_hdr0, 64);
 
 	  /* generate ICMP time exceeded packet */
