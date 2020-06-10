@@ -109,7 +109,7 @@ void sr_handlepacket(struct sr_instance* sr,
 		     unsigned int len,
 		     char* interface/* lent */)
 {
-  print_hdrs(packet, len);
+  /* print_hdrs(packet, len); */
 
   /* REQUIRES */
   assert(sr);
@@ -372,11 +372,13 @@ void sr_handlepacket(struct sr_instance* sr,
 	/**************** fill in code here *****************/	
 
 	/* set src MAC addr */
-  ifc = sr_get_interface(sr, interface);
+  rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_dst);
+  ifc = sr_get_interface(sr, rtentry->interface);
   /* ifc = sr_get_interface(sr, rtentry->interface); */
   memcpy(e_hdr0->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 	/* refer ARP table */
-  arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst);
+  arpentry = sr_arpcache_lookup(&(sr->cache), rtentry->gw.s_addr);
+  /*arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst); */
   /* printf("forwarding start... \n"); */
 	/* hit */
 	if (arpentry != NULL) {
