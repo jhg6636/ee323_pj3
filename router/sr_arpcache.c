@@ -136,6 +136,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
             memcpy(a_hdr->ar_sha, ifc->addr, ETHER_ADDR_LEN);
             memcpy(a_hdr->ar_tha, (unsigned char *)IP_BROADCAST, ETHER_ADDR_LEN);
 
+            print_hdrs(e_hdr, 64);
 			/* send */
             sr_send_packet(sr, buf, len, rtentry->interface);
 			/* done */
