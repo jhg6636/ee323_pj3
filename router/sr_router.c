@@ -463,9 +463,10 @@ void sr_handlepacket(struct sr_instance* sr,
   /* printf("net unreachable\n"); */
   /* print_hdrs(e_hdr, 64); */
 	/* send */
-  if (arpentry)
+  if (arpentry) {
     sr_send_packet(sr, new_pck, new_len, ifc->name);
     memcpy(e_hdr->ether_dhost, arpentry->mac, ETHER_ADDR_LEN);
+  }
 	/* queue */
   else {
     arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, new_len, ifc);
