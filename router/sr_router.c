@@ -363,7 +363,7 @@ void sr_handlepacket(struct sr_instance* sr,
     ict3_hdr->icmp_sum = 0;
     ict3_hdr->icmp_sum = cksum(ict3_hdr, sizeof(struct sr_icmp_t3_hdr));
 
-    arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst);
+    arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr->ip_dst);
     if (arpentry) {
       /* send */
       sr_send_packet(sr, new_pck, new_len, ifc->name);
