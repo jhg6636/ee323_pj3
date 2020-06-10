@@ -104,6 +104,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                     struct sr_arpreq *arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, len, ifc);
                     sr_arpcache_handle_arpreq(sr, arpreq);
                 }
+                pck = pck->next;
             }
 
 		/****************************************************/
