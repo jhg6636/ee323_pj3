@@ -280,12 +280,16 @@ void sr_handlepacket(struct sr_instance* sr,
   print_hdrs(e_hdr, 64);
   */
 	/* send */
-	sr_send_packet(sr, new_pck, new_len, ifc->name);
+  arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst);
+  if (arpentry)
+	  sr_send_packet(sr, new_pck, new_len, ifc->name);
 				
 
 	/* queue */
-  arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, new_len, ifc);
-	sr_arpcache_handle_arpreq(sr, arpreq);
+  else {
+    arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, new_len, ifc);
+    sr_arpcache_handle_arpreq(sr, arpreq);
+  }
 
 				
 
@@ -356,12 +360,16 @@ void sr_handlepacket(struct sr_instance* sr,
     ict3_hdr->icmp_sum = 0;
     ict3_hdr->icmp_sum = cksum(ict3_hdr, sizeof(struct sr_icmp_t3_hdr));
 
-
-  /* send */
-    sr_send_packet(sr, new_pck, new_len, ifc->name);
-  /* queue */
-    arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, new_len, ifc);
-    sr_arpcache_handle_arpreq(sr, arpreq);
+    arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst);
+    if (arpentry) {
+      /* send */
+      sr_send_packet(sr, new_pck, new_len, ifc->name);
+    }
+    else {
+      /* queue */
+      arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, new_len, ifc);
+      sr_arpcache_handle_arpreq(sr, arpreq);
+    }
     
 	  /*****************************************************/
 	  /* done */
