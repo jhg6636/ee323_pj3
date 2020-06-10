@@ -30,8 +30,7 @@ void sr_arpcache_sweepreqs(struct sr_instance *sr) {
 }
 
 void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
-    /*printf("arpcache_handle start\n");*/
-	struct sr_arpcache *cache = &(sr->cache);	/* cache */
+    struct sr_arpcache *cache = &(sr->cache);	/* cache */
 	struct sr_packet *pck;						/* packet */
 	uint8_t *buf;								/* raw Ethernet frame */
 	unsigned int len;							/* length of buf */
@@ -50,7 +49,6 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
 		/* 5 failures accumulated, discard */
 		if (req->times_sent >= 5) {
 		/**************** fill in code here *****************/
-            printf("host_unreachable start\n");
 			/* generate ICMP host unreachable packets */
 			pck = req->packets;
             while (pck) {
@@ -61,14 +59,11 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
                 
                 struct sr_ethernet_hdr *e_hdr0 = (struct sr_ethernet_hdr *) pck->buf;
                 i_hdr0 = (struct sr_ip_hdr *) (pck->buf + sizeof(struct sr_ethernet_hdr));
-                /*print_hdrs(e_hdr0, 64);*/
                 e_hdr = (struct sr_ethernet_hdr *) new_pck;
                 i_hdr = (struct sr_ip_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr));
                 ict3_hdr = (struct sr_icmp_t3_hdr *) (new_pck + sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr));
 
                 rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_src);
-                if (rtentry == NULL) printf("fff\n");
-                printf("here\n");
                 ifc = sr_get_interface(sr, rtentry->interface);
                 
                 e_hdr->ether_type = e_hdr0->ether_type;
@@ -115,7 +110,6 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
 		/* try again */
 		else {
 		/**************** fill in code here *****************/
-            printf("try again\n");
 			/* generate ARP request */
             len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_arp_hdr);
             buf = (uint8_t *)calloc(1, len);
@@ -137,7 +131,6 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req) {
             memcpy(a_hdr->ar_sha, ifc->addr, ETHER_ADDR_LEN);
             memcpy(a_hdr->ar_tha, (unsigned char *)IP_BROADCAST, ETHER_ADDR_LEN);
 
-            print_hdrs(e_hdr, 64);
 			/* send */
             sr_send_packet(sr, buf, len, rtentry->interface);
 			/* done */
