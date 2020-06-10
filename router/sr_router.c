@@ -377,8 +377,8 @@ void sr_handlepacket(struct sr_instance* sr,
   /* ifc = sr_get_interface(sr, rtentry->interface); */
   memcpy(e_hdr0->ether_shost, ifc->addr, ETHER_ADDR_LEN);
 	/* refer ARP table */
-  arpentry = sr_arpcache_lookup(&(sr->cache), rtentry->gw.s_addr);
-  /*arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst); */
+  /* arpentry = sr_arpcache_lookup(&(sr->cache), rtentry->gw.s_addr); */
+  arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst);
   /* printf("forwarding start... \n"); */
 	/* hit */
 	if (arpentry != NULL) {
@@ -386,10 +386,10 @@ void sr_handlepacket(struct sr_instance* sr,
     memcpy(e_hdr0->ether_dhost, arpentry->mac, ETHER_ADDR_LEN);
 	  /* decrement TTL */
     i_hdr0->ip_sum = 0;
+    i_hdr0->ip_ttl--;
     i_hdr0->ip_sum = cksum(i_hdr0, sizeof(struct sr_ip_hdr));
 	  /* forward */
     /* printf("forwarding... \n"); */
-    i_hdr0->ip_ttl--;
     sr_send_packet(sr, packet, len, ifc->name);
 
 	  /*****************************************************/
