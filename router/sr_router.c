@@ -281,8 +281,10 @@ void sr_handlepacket(struct sr_instance* sr,
   */
 	/* send */
   arpentry = sr_arpcache_lookup(&(sr->cache), i_hdr0->ip_dst);
-  if (arpentry)
+  if (arpentry) {
+    memcpy(e_hdr->ether_dhost, arpentry->mac, ETHER_ADDR_LEN);
 	  sr_send_packet(sr, new_pck, new_len, ifc->name);
+  }
 				
 
 	/* queue */
@@ -321,7 +323,8 @@ void sr_handlepacket(struct sr_instance* sr,
 
 	  /* validation */
     i_hdr0->ip_ttl--;
-					
+    printf("ttl is 1\n")
+    print_hdrs(e_hdr0, 64);
 
 	  /* generate ICMP time exceeded packet */
     new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
@@ -364,6 +367,7 @@ void sr_handlepacket(struct sr_instance* sr,
     if (arpentry) {
       /* send */
       sr_send_packet(sr, new_pck, new_len, ifc->name);
+      memcpy(e_hdr->ether_dhost, arpentry->mac, ETHER_ADDR_LEN);
     }
     else {
       /* queue */
@@ -461,6 +465,7 @@ void sr_handlepacket(struct sr_instance* sr,
 	/* send */
   if (arpentry)
     sr_send_packet(sr, new_pck, new_len, ifc->name);
+    memcpy(e_hdr->ether_dhost, arpentry->mac, ETHER_ADDR_LEN);
 	/* queue */
   else {
     arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, new_len, ifc);
