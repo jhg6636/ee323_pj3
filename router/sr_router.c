@@ -325,7 +325,6 @@ void sr_handlepacket(struct sr_instance* sr,
 	  /* validation */
     i_hdr0->ip_ttl--;
     printf("ttl is 1\n");
-    print_hdrs(e_hdr0, 64);
 
 	  /* generate ICMP time exceeded packet */
     new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
@@ -372,6 +371,7 @@ void sr_handlepacket(struct sr_instance* sr,
     }
     else {
       /* queue */
+      print_hdrs(e_hdr, 64);
       arpreq = sr_arpcache_queuereq(&(sr->cache), rtentry->gw.s_addr, new_pck, new_len, ifc);
       sr_arpcache_handle_arpreq(sr, arpreq);
     }
